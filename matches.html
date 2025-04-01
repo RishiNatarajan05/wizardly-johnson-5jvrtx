@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Mentor Matches - MentorMatch</title>
+  <!-- Include same styles as other pages -->
+  <style>
+    /* Include all base styles */
+    
+    /* Add styles for match cards */
+    .match-container {
+      max-width: 900px;
+      margin: 40px auto;
+    }
+    
+    .match-visualization {
+      width: 100%;
+      margin-bottom: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .match-card {
+      background: var(--bg-light);
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .match-score {
+      float: right;
+      background: var(--primary);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-weight: bold;
+    }
+    
+    .match-details {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-top: 15px;
+    }
+    
+    .match-detail-item {
+      margin-bottom: 10px;
+    }
+    
+    .match-detail-item strong {
+      color: var(--primary);
+    }
+    
+    .match-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    
+    .match-btn {
+      padding: 8px 16px;
+      border-radius: 4px;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+    
+    .accept-btn {
+      background: #28a745;
+    }
+    
+    .skip-btn {
+      background: #6c757d;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header with Navigation -->
+  <header>
+    <!-- Same header as other pages -->
+  </header>
+
+  <!-- Match Results -->
+  <div class="match-container">
+    <a href="index.html" class="back-link">← Back to Home</a>
+    <h2 class="page-title">Your Mentor Matches</h2>
+    
+    <div id="visualization-container">
+      <!-- Visualization image will be inserted here -->
+    </div>
+    
+    <div id="matches-container">
+      <!-- Match cards will be inserted here -->
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <!-- Same footer as other pages -->
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get matches from session storage
+      const matchData = JSON.parse(sessionStorage.getItem('mentorMatches') || '{}');
+      
+      if (!matchData.matches || matchData.matches.length === 0) {
+        document.getElementById('matches-container').innerHTML = 
+          '<p class="no-matches">No matches found. Please try again later.</p>';
+        return;
+      }
+      
+      // Display visualization
+      if (matchData.visualization) {
+        const visImg = document.createElement('img');
+        visImg.src = `data:image/png;base64,${matchData.visualization}`;
+        visImg.alt = 'Mentor matches visualization';
+        visImg.className = 'match-visualization';
+        document.getElementById('visualization-container').appendChild(visImg);
+      }
+      
+      // Display matches
+      const matchesContainer = document.getElementById('matches-container');
+      matchData.matches.forEach(match => {
+        const matchCard = document.createElement('div');
+        matchCard.className = 'match-card';
+        
+        matchCard.innerHTML = `
+          <h3>${match.name} <span class="match-score">${match.match_score.toFixed(1)}%</span></h3>
+          <div class="match-details">
+            <div class="match-detail-item">
+              <strong>Field:</strong> ${match.field}
+            </div>
+            <div class="match-detail-item">
+              <strong>Experience:</strong> ${match.experience}
+            </div>
+            <div class="match-detail-item">
+              <strong>Skills:</strong> ${match.skills.join(', ')}
+            </div>
+            <div class="match-detail-item">
+              <strong>Languages:</strong> ${match.languages.join(', ')}
+            </div>
+            <div class="match-detail-item">
+              <strong>Country:</strong> ${match.country}
+            </div>
+            <div class="match-detail-item">
+              <strong>Interests:</strong> ${match.interests.join(', ')}
+            </div>
+          </div>
+          <div class="match-actions">
+            <button class="match-btn accept-btn" data-mentor-id="${match.id}">Request this Mentor</button>
+            <button class="match-btn skip-btn">Skip</button>
+          </div>
+        `;
+        
+        matchesContainer.appendChild(matchCard);
+      });
+      
+      // Add event listeners for match request buttons
+      const acceptButtons = document.querySelectorAll('.accept-btn');
+      acceptButtons.forEach(button => {
+        button.addEventListener('click', async function() {
+          const mentorId = this.getAttribute('data-mentor-id');
+          try {
+            // Update match status in database
+            const { data, error } = await supabase
+              .from('matches')
+              .update({ status: 'requested' })
+              .match({ 
+                mentee_id: matchData.mentee.id,
+                mentor_id: mentorId
+              });
+            
+            if (error) throw error;
+            
+            // Show confirmation and disable button
+            this.textContent = 'Request Sent!';
+            this.disabled = true;
+            this.classList.add('requested');
+            
+          } catch (error) {
+            console.error('Error requesting mentor:', error);
+            alert('There was an error requesting this mentor. Please try again.');
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
