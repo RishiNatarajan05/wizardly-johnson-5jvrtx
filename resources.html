@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resources - MentorMatch</title>
+    <style>
+      /* Base reset and variable definitions */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      :root {
+        --primary: #023796;
+        --secondary: #065efb;
+        --accent: #023082;
+        --light-blue: #84a4fc;
+        --bg-light: #f7f7f7;
+        --text-primary: #333;
+        --text-light: #fff;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        color: var(--text-primary);
+        background-color: #fff;
+      }
+
+      /* Header styling */
+      header {
+        background: var(--primary);
+        color: var(--text-light);
+        padding: 20px;
+      }
+      header .container {
+        max-width: 1200px;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .logo {
+        font-size: 1.8em;
+        font-weight: bold;
+      }
+      nav ul {
+        list-style: none;
+        display: flex;
+        gap: 20px;
+        margin: 10px 0;
+      }
+      nav ul li a {
+        color: var(--text-light);
+        text-decoration: none;
+        font-size: 1em;
+      }
+      .cta-buttons {
+        display: flex;
+        gap: 10px;
+        margin: 10px 0;
+      }
+      .cta-buttons a {
+        padding: 8px 16px;
+        background-color: var(--secondary);
+        color: var(--text-light);
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+        cursor: pointer;
+      }
+      .cta-buttons a:hover {
+        background-color: var(--accent);
+      }
+      .cta-buttons a.active {
+        background-color: var(--accent);
+      }
+
+      /* Main content styling */
+      .main-container {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+      }
+
+      .page-title {
+        text-align: center;
+        color: var(--primary);
+        margin-bottom: 30px;
+        font-size: 2.5em;
+      }
+
+      .resource-section {
+        margin-bottom: 50px;
+      }
+
+      .section-title {
+        color: var(--primary);
+        margin-bottom: 20px;
+        font-size: 1.8em;
+        border-bottom: 2px solid var(--light-blue);
+        padding-bottom: 10px;
+      }
+
+      .resource-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 20px;
+      }
+
+      .resource-card {
+        background: var(--bg-light);
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+
+      .resource-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+      }
+
+      .resource-title {
+        color: var(--primary);
+        margin-bottom: 10px;
+        font-size: 1.3em;
+      }
+
+      .resource-description {
+        margin-bottom: 15px;
+        color: var(--text-primary);
+      }
+
+      .resource-link {
+        display: inline-block;
+        color: var(--secondary);
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.3s;
+      }
+
+      .resource-link:hover {
+        color: var(--accent);
+        text-decoration: underline;
+      }
+
+      .resource-tags {
+        margin-top: 15px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .resource-tag {
+        background: var(--light-blue);
+        color: var(--primary);
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 0.8em;
+        font-weight: bold;
+      }
+
+      /* Footer styling */
+      footer {
+        background: var(--primary);
+        color: var(--text-light);
+        padding: 20px;
+      }
+
+      footer .footer-container {
+        max-width: 1200px;
+        margin: auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+
+      footer .footer-section {
+        flex: 1 1 250px;
+        margin: 10px 0;
+      }
+
+      footer h3 {
+        margin-bottom: 10px;
+      }
+
+      footer ul {
+        list-style: none;
+      }
+
+      footer ul li {
+        margin-bottom: 8px;
+      }
+
+      footer ul li a {
+        color: var(--text-light);
+        text-decoration: none;
+      }
+
+      /* Responsive styles */
+      @media (max-width: 768px) {
+        header .container {
+          flex-direction: column;
+        }
+
+        nav ul {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .cta-buttons {
+          margin-top: 10px;
+        }
+
+        .resource-grid {
+          grid-template-columns: 1fr;
+        }
+
+        footer .footer-container {
+          flex-direction: column;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header with Navigation -->
+    <header>
+      <div class="container">
+        <div class="logo">MentorMatch</div>
+        <nav>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#features">Our Values</a></li>
+            <li><a href="index.html#testimonials">Testimonials</a></li>
+            <li><a href="index.html#how-it-works">How It Works</a></li>
+            <li><a href="index.html#immigrants">For Immigrants</a></li>
+            <li><a href="resources.html" class="active">Resources</a></li>
+          </ul>
+        </nav>
+        <div class="cta-buttons">
+          <a href="mentee.html" id="get-mentored-btn">Get Mentored</a>
+          <a href="mentor.html" id="become-mentor-btn">Become a Mentor</a>
+          <a href="#signin">Sign In</a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-container">
+      <h1 class="page-title">Resources for Immigrant Professionals</h1>
+      <p style="text-align: center; margin-bottom: 40px">
+        We've compiled a collection of valuable resources to help you advance
+        your career, find job opportunities, and navigate visa and immigration
+        processes.
+      </p>
+
+      <!-- Professional Certifications Section -->
+      <section class="resource-section">
+        <h2 class="section-title">Professional Certifications</h2>
+        <div class="resource-grid">
+          <!-- Certification 1 -->
+          <div class="resource-card">
+            <h3 class="resource-title">LinkedIn Learning</h3>
+            <p class="resource-description">
+              Access thousands of professional courses and certification
+              programs across various industries, from technology to business
+              and creative fields.
+            </p>
+            <a
+              href="https://www.linkedin.com/learning/"
+              target="_blank"
+              class="resource-link"
+              >Visit LinkedIn Learning →</a
+            >
+            <div class="resource-tags">
+              <span class="resource-tag">Technology</span>
+              <span class="resource-tag">Business</span>
+              <span class="resource-tag">Design</span>
+            </div>
+          </div>
+
+          <!-- Certification 2 -->
+          <div class="resource-card">
+            <h3 class="resource-title">Coursera</h3>
+            <p class="resource-description">
+              Take courses from top universities and companies worldwide. Many
+              courses offer professional certificates recognized by employers.
+            </p>
+            <a
+              href="https://www.coursera.org/"
+              target="_blank"
+              class="resource-link"
+              >Visit Coursera →</a
+            >
+            <div class="resource-tags">
+              <span class="resource-tag">Academic</span>
+              <span class="resource-tag">Technology</span>
+              <span class="resource-tag">Business</span>
+            </div>
+          </div>
+
+          <!-- Certification 3 -->
+          <div class="resource-card">
+            <h3 class="resource-title">Microsoft Learn</h3>
+            <p class="resource-description">
+              Free learning platform with paths to Microsoft certifications in
+              cloud computing, data science, AI, and developer technologies.
+            </p>
+            <a
+              href="https://learn.microsoft.com/"
+              target="_blank"
+              class="resource-link"
+              >Visit Microsoft Learn →</a
+            >
+            <div class="resource-tags">
+              <span class="resource-tag">Technology</span>
+              <span class="resource-tag">Cloud</span>
+              <span class="resource-tag">Data Science</span>
+            </div>
+          </div>
+
+          <!-- Certification 4 -->
+          <div class="resource-card">
+            <h3 class="resource-title">Google Career Certificates</h3>
+            <p class="resource-description">
+              Job-ready certification programs in high-growth fields like IT
+              support, data analytics, project management, and UX design.
+            </p>
+            <a
+              href="https://grow.google/certificates/"
+              target="_blank"
+              class="resource-link"
+              >Visit Google Career Certificates →</a
+            >
+            <div class="resource-tags">
+              <span class="resource-tag">Technology</span>
+              <span class="resource-tag">Business</span>
+              <span class="resource-tag">Design</span>
+            </div>
+          </div>
+
+          <!-- Certification 5 -->
+          <div class="resource-card">
+            <h3 class="resource-title">edX</h3>
+            <p class="resource-description">
+              Take courses from Harvard, MIT, and more. Offers MicroMasters and
+              Professional Certificate programs for career advancement.
+            </p>
+            <a href="https://www.edx.org/" target="_blank" class="resource-link"
+              >Visit edX →</a
+            >
+            <div class="resource-tags">
+              <span class="resource-tag">Academic</span>
+              <span class="resource-tag">Technology</span>
+              <span class="resource-tag">Business</span>
+            </div>
+          </div>
+
+          <!-- Certification 6 -->
+          <div class="resource-card">
+            <h3 class="resource-title">AWS Certification</h3>
+            <p class="resource-description">
+              Build credibility and confidence by validating your cloud
+              expertise with an industry-recognized credential from Amazon Web
+              Services.
+            </p>
+            <a
+              href="https://aws.amazon.com/certification/"
+              target="_blank"
+              class="resource-link"
+              >Visit AWS Certification →</a
+            >
+            <div class="resource-tags">
+              <span class="resource-tag">Cloud</span>
+              <span class="resource-tag">Technology</span>
+              <span class="resource-tag">IT</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Job Boards Section -->
+      <section class="resource-section">
+        <h2 class="section-title">Job Boards for Immigrants</h2>
+        <div class="resource-grid">
+          <!-- Job Board 1 -->
+          <div class="resource-card">
+            <h3 class="resource-title">Upwardly Global</h3>
+            <p class="resource-description">
+              Dedicated to eliminating employment barriers for immigrant and
+              refugee professionals and advancing their inclusion in the U.S.
+              workforce.
+            </p>
+            <a
+              href="https://www.upwardlyglobal.org/"
+              target="_blank"
+              class="resource-link"
+              >Visit Upwardly Global →</a
+            >
+            <div class="resource-tags">
+              <span class="resource-tag">Immigrants</span>
+              <span class="resource-tag">Refugees</span>
+              <span class="resource-tag">Professional</span>
+            </div>
+          </div>
+
+          <!-- Job Board 2 -->
+          <div class="resource-card">
+            <h3 class="resource-title">Welcoming Center</h3>
+            <p class="resource-description">
+              Connects newly arrived individuals from around the world with
+              economic opportunities. Offers job training and placement
+              services.
+            </p>
+            <a
+              href="https://welcomingcenter.org/"
+              target="_blank"
+              class="resource-link"
+              >Visit Welcoming Center →</a
+            >
+            <div class="resource-tags">
+              <span class="resource-tag">Training</span>
+              <span class="resource-tag">Placement</span>
+              <span class="resource-tag">Support</span>
+            </div>
+          </div>
+
+          <!-- Job Board 3 -->
+          <div class="resource-card">
+            <h3 class="resource-title">LinkedIn Jobs</h3>
+            <p class="resource-description">
+              Powerful job search platform with filters for visa sponsorship and
+              remote work options. Network with professionals in your field.
+            </p>
+            <a
+              href="https://www.linkedin.com/jobs/"
+              target="_blank"
+              class="resource-link"
+              >Visit LinkedIn Jobs →</a
+            >
+            <div class="resource-tags">
+              <span class="resource-tag">Networking</span>
+              <span class="resource-tag">All Industries</span>
+              <span class="resource-tag">Global</span>
+            </div>
+          </div>
+
+          <!-- Job Board 4 -->
+          <div class="resource-card">
+            <h3 class="resource-title">Indeed</h3>
+            <p class="resource-description">
+              World's largest job site with millions of listings. Search with
+              keywords like "visa sponsorship" or "work permit" to find suitable
+              opportunities.
+            </p>
+            <a
+              href="https://www.indeed.com/"
+              target="_blank"
+              class="resource-link"
+              >Visit Indeed →</a
+            >
+            <div class="resource-tags">
+              <span class="resource-tag">All Industries</span>
+              <span class="resource-tag">Global</span>
+              <span class="resource-tag">Job Search</span>
+            </div>
+          </div>
+
+          <!-- Job Board 5 -->
+          <div class="resource-card">
+            <h3 class="resource-title">Diversity Jobs</h3>
+            <p class="resource-description">
+              Job board focusing on diversity and inclusion. Find employers
+              committed to hiring talent from diverse backgrounds including
+              immigrants.
+            </p>
+            <a
+              href="https://diversityjobs.com/"
+              target="_blank"
+              class="resource-link"
+              >Visit Diversity Jobs →</a
+            >
+            <div class="resource-tags">
+              <span class="resource-tag">Diversity</span>
+              <span class="resource-tag">Inclusion</span>
+              <span class="resource-tag">Equal Opportunity</span>
+            </div>
+          </div>
+
+          <!-- Job Board 6 -->
+          <div class="resource-card">
+            <h3 class="resource-title">Trickle</h3>
+            <p class="resource-description">
+              Job platform specifically designed to connect international
+              students and professionals with employers offering visa
+              sponsorship.
+            </p>
+            <a href="https://trickle.app/" target="_blank" class="resource-link"
+              >Visit Trickle →</a
+            >
+            <div class="resource-tags">
+              <span class="resource-tag">Visa Sponsorship</span>
+              <span class="resource-tag">International</span>
+              <span class="resource-tag">Technology</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Visa and Immigration Resources Section -->
+      <section class="resource-section">
+        <h2 class="section-title">Visa & Immigration Resources</h2>
+        <div class="resource-grid">
+          <!-- Visa Resource 1 -->
+          <div class="resource-card">
+            <h3 class="resource-title">USCIS Official Site</h3>
+            <p class="resource-description">
+              Official U.S. government website for immigration forms,
+              requirements, and processes. Check visa status and find authorized
+              immigration services.
+            </p>
+            <a
+              href="https://www.uscis.gov/"
+              target="_blank"
+              class="resource-link"
+              >Visit USCIS →</a
+            >
+            <div class="resource-tags">
+              <span class="resource-tag">Official</span>
+              <span class="resource-tag">Government</span>
+              <span class="resource-tag">Forms</span>
+            </div>
+          </div>
+
+          <!-- Visa Resource 2 -->
+          <div class="resource-card">
+            <h3 class="resource-title">Immi</h3>
+            <p class="resource-description">
+              Free online tool that helps immigrants understand their legal
+              options. Find out which immigration paths you might qualify for.
+            </p>
+            <a
+              href="https://www.immi.org/"
+              target="_blank"
+              class="resource-link"
+              >Visit Immi →</a
+            >
+            <div class="resource-tags">
+              <span class="resource-tag">Legal Aid</span>
+              <span class="resource-tag">Self-help</span>
+              <span class="resource-tag">Free</span>
+            </div>
+          </div>
+
+          <!-- Visa Resource 3 -->
+          <div class="resource-card">
+            <h3 class="resource-title">Immigrant Legal Resource Center</h3>
+            <p class="resource-description">
+              National nonprofit that provides legal trainings, educational
+              materials, and advocacy to advance immigrant rights.
+            </p>
+            <a
+              href="https://www.ilrc.org/"
+              target="_blank"
+              class="resource-link"
+              >Visit ILRC →</a
+            >
+            <div class="resource-tags">
+              <span class="resource-tag">Legal</span>
+              <span class="resource-tag">Resources</span>
+              <span class="resource-tag">Advocacy</span>
+            </div>
+          </div>
+
+          <!-- Visa Resource 4 -->
+          <div class="resource-card">
+            <h3 class="resource-title">National Immigration Forum</h3>
+            <p class="resource-description">
+              Advocate organization that provides resources, policy updates, and
+              community support for immigrants navigating the U.S. system.
+            </p>
+            <a
+              href="https://immigrationforum.org/"
+              target="_blank"
+              class="resource-link"
+              >Visit National Immigration Forum →</a
+            >
+            <div class="resource-tags">
+              <span class="resource-tag">Policy</span>
+              <span class="resource-tag">Resources</span>
+              <span class="resource-tag">Support</span>
+            </div>
+          </div>
+
+          <!-- Visa Resource 5 -->
+          <div class="resource-card">
+            <h3 class="resource-title">American Immigration Council</h3>
+            <p class="resource-description">
+              Comprehensive resource hub with fact sheets, guides, and research
+              on various immigration-related topics and policies.
+            </p>
+            <a
+              href="https://www.americanimmigrationcouncil.org/"
+              target="_blank"
+              class="resource-link"
+              >Visit American Immigration Council →</a
+            >
+            <div class="resource-tags">
+              <span class="resource-tag">Research</span>
+              <span class="resource-tag">Education</span>
+              <span class="resource-tag">Policy</span>
+            </div>
+          </div>
+
+          <!-- Visa Resource 6 -->
+          <div class="resource-card">
+            <h3 class="resource-title">Boundless Immigration</h3>
+            <p class="resource-description">
+              Technology company making immigration easier with affordable
+              services, clear guidance, and helpful resources for various visa
+              types.
+            </p>
+            <a
+              href="https://www.boundless.com/"
+              target="_blank"
+              class="resource-link"
+              >Visit Boundless Immigration →</a
+            >
+            <div class="resource-tags">
+              <span class="resource-tag">Services</span>
+              <span class="resource-tag">Guides</span>
+              <span class="resource-tag">Family</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Additional Support Services -->
+      <section class="resource-section">
+        <h2 class="section-title">Additional Support Services</h2>
+        <div class="resource-grid">
+          <!-- Support 1 -->
+          <div class="resource-card">
+            <h3 class="resource-title">
+              National Immigration Legal Services Directory
+            </h3>
+            <p class="resource-description">
+              Find nonprofit organizations that provide low-cost legal help for
+              immigrants, searchable by state, county, or detention facility.
+            </p>
+            <a
+              href="https://www.immigrationadvocates.org/nonprofit/legaldirectory/"
+              target="_blank"
+              class="resource-link"
+              >Visit Legal Directory →</a
+            >
+            <div class="resource-tags">
+              <span class="resource-tag">Legal</span>
+              <span class="resource-tag">Nonprofit</span>
+              <span class="resource-tag">Directory</span>
+            </div>
+          </div>
+
+          <!-- Support 2 -->
+          <div class="resource-card">
+            <h3 class="resource-title">Immigrant Professional Networks</h3>
+            <p class="resource-description">
+              Find networking groups and professional associations for
+              immigrants in your industry to build connections and find support.
+            </p>
+            <a
+              href="https://www.immnet.org/"
+              target="_blank"
+              class="resource-link"
+              >Visit Immigrant Networks →</a
+            >
+            <div class="resource-tags">
+              <span class="resource-tag">Networking</span>
+              <span class="resource-tag">Professional</span>
+              <span class="resource-tag">Community</span>
+            </div>
+          </div>
+
+          <!-- Support 3 -->
+          <div class="resource-card">
+            <h3 class="resource-title">WES Credential Evaluation</h3>
+            <p class="resource-description">
+              Get your international education credentials evaluated and
+              recognized by U.S. employers, licensing boards, and educational
+              institutions.
+            </p>
+            <a href="https://www.wes.org/" target="_blank" class="resource-link"
+              >Visit WES →</a
+            >
+            <div class="resource-tags">
+              <span class="resource-tag">Education</span>
+              <span class="resource-tag">Credentials</span>
+              <span class="resource-tag">Evaluation</span>
+            </div>
+          </div>
+
+          <!-- Support 4 -->
+          <div class="resource-card">
+            <h3 class="resource-title">Welcome.US</h3>
+            <p class="resource-description">
+              National initiative to empower Americans to welcome and support
+              newcomers. Provides resources and connections to local support.
+            </p>
+            <a href="https://welcome.us/" target="_blank" class="resource-link"
+              >Visit Welcome.US →</a
+            >
+            <div class="resource-tags">
+              <span class="resource-tag">Community</span>
+              <span class="resource-tag">Newcomers</span>
+              <span class="resource-tag">Support</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-container">
+        <div class="footer-section">
+          <h3>About MentorMatch</h3>
+          <p>
+            MentorMatch is dedicated to connecting mentors and mentees,
+            empowering immigrants to achieve professional excellence through
+            guidance and community support.
+          </p>
+        </div>
+        <div class="footer-section">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#features">Our Values</a></li>
+            <li><a href="index.html#how-it-works">How It Works</a></li>
+            <li><a href="index.html#immigrants">For Immigrants</a></li>
+            <li><a href="resources.html">Resources</a></li>
+            <li><a href="role-select.html">Join Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Get Started</h3>
+          <ul>
+            <li><a href="mentee.html">Become a Mentee</a></li>
+            <li><a href="mentor.html">Become a Mentor</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Contact Us</h3>
+          <ul>
+            <li>Email: info@mentormatch.com</li>
+            <li>Phone: +1 (123) 456-7890</li>
+            <li>Location: Austin, TX, USA</li>
+          </ul>
+        </div>
+      </div>
+      <p style="text-align: center; margin-top: 20px">
+        &copy; 2025 MentorMatch. All Rights Reserved.
+      </p>
+    </footer>
+
+    <!-- Load external script for minimal functionality -->
+    <script src="script.js"></script>
+  </body>
+</html>
