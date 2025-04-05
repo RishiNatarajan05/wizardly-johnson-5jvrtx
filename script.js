@@ -438,7 +438,7 @@ async function requestMentorMatches(menteeId) {
     window.location.href = "matches.html";
   } catch (error) {
     console.error("Error requesting mentor matches:", error);
-    alert("Unable to find mentor matches.  try again later.");
+    alert("Unable to find mentor matches. Please try again later.");
   }
 }
 
