@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Mentors - MentorMatch</title>
+    <style>
+      /* Base reset and variable definitions */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      :root {
+        --primary: #023796;
+        --secondary: #065efb;
+        --accent: #023082;
+        --light-blue: #84a4fc;
+        --bg-light: #f7f7f7;
+        --text-primary: #333;
+        --text-light: #fff;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        color: var(--text-primary);
+        background-color: var(--bg-light);
+      }
+      
+      /* Header styling */
+      header {
+        background: var(--primary);
+        color: var(--text-light);
+        padding: 20px;
+      }
+      header .container {
+        max-width: 1200px;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .logo {
+        font-size: 1.8em;
+        font-weight: bold;
+      }
+      nav ul {
+        list-style: none;
+        display: flex;
+        gap: 20px;
+        margin: 10px 0;
+      }
+      nav ul li a {
+        color: var(--text-light);
+        text-decoration: none;
+        font-size: 1em;
+      }
+      .cta-buttons {
+        display: flex;
+        gap: 10px;
+        margin: 10px 0;
+      }
+      .cta-buttons a {
+        padding: 8px 16px;
+        background-color: var(--secondary);
+        color: var(--text-light);
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+        cursor: pointer;
+      }
+      .cta-buttons a:hover {
+        background-color: var(--accent);
+      }
+      .cta-buttons a.active {
+        background-color: var(--accent);
+      }
+      
+      /* Main content container */
+      .main-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      
+      /* Mentors list styling */
+      .mentor-card {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 20px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+      
+      .mentor-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+      }
+      
+      .mentor-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+      
+      .mentor-avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background-color: var(--light-blue);
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8em;
+        font-weight: bold;
+        margin-right: 15px;
+      }
+      
+      .mentor-info {
+        flex: 1;
+      }
+      
+      .mentor-name {
+        font-size: 1.3em;
+        color: var(--primary);
+        margin-bottom: 4px;
+      }
+      
+      .mentor-title {
+        color: var(--text-primary);
+        font-size: 0.95em;
+      }
+      
+      .mentor-meta {
+        display: flex;
+        justify-content: space-between;
+        color: #666;
+        font-size: 0.85em;
+        margin-top: 3px;
+      }
+      
+      .mentor-body {
+        margin-bottom: 15px;
+      }
+      
+      .expertise-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 10px;
+      }
+      
+      .expertise-tag {
+        background-color: var(--light-blue);
+        color: var(--primary);
+        font-size: 0.85em;
+        padding: 4px 10px;
+        border-radius: 20px;
+      }
+      
+      .mentor-stats {
+        margin-top: 15px;
+        display: flex;
+        gap: 30px;
+      }
+      
+      .mentor-stat {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .stat-value {
+        font-weight: bold;
+        font-size: 1.1em;
+        color: var(--primary);
+      }
+      
+      .stat-label {
+        font-size: 0.8em;
+        color: #666;
+      }
+      
+      .mentor-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+      }
+      
+      .btn {
+        padding: 8px 16px;
+        border-radius: 4px;
+        font-size: 0.95em;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      
+      .btn-outline {
+        border: 1px solid var(--primary);
+        background-color: transparent;
+        color: var(--primary);
+      }
+      
+      .btn-outline:hover {
+        background-color: rgba(132, 164, 252, 0.1);
+      }
+      
+      .btn-primary {
+        background-color: var(--primary);
+        border: 1px solid var(--primary);
+        color: white;
+      }
+      
+      .btn-primary:hover {
+        background-color: var(--accent);
+      }
+      
+      .notification-badge {
+        display: inline-block;
+        background-color: #e53e3e;
+        color: white;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        font-size: 0.8em;
+        line-height: 20px;
+        text-align: center;
+        margin-left: 8px;
+      }
+      
+      /* Modal styling */
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+      }
+      
+      .modal-container {
+        max-width: 800px;
+        width: 100%;
+        max-height: 90vh;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        overflow-y: auto;
+        position: relative;
+      }
+      
+      .modal-header {
+        padding: 20px;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+      
+      .modal-close {
+        background: none;
+        border: none;
+        font-size: 1.5em;
+        cursor: pointer;
+        color: #666;
+      }
+      
+      .modal-body {
+        padding: 20px;
+      }
+      
+      .modal-profile-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+      
+      .modal-profile-avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background-color: var(--light-blue);
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2em;
+        font-weight: bold;
+        margin-right: 20px;
+      }
+      
+      .modal-profile-info {
+        flex: 1;
+      }
+      
+      .modal-profile-name {
+        font-size: 1.8em;
+        color: var(--primary);
+        margin-bottom: 5px;
+      }
+      
+      .modal-profile-title {
+        color: #666;
+        font-size: 1.1em;
+      }
+      
+      .profile-content {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 30px;
+      }
+      
+      .profile-section {
+        margin-bottom: 20px;
+      }
+      
+      .profile-section-title {
+        font-size: 1.3em;
+        color: var(--primary);
+        margin-bottom: 10px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #eee;
+      }
+      
+      .match-info {
+        background-color: var(--bg-light);
+        padding: 15px;
+        border-radius: 8px;
+      }
+      
+      .match-bar {
+        height: 8px;
+        background-color: #ddd;
+        border-radius: 4px;
+        margin: 8px 0 15px;
+        overflow: hidden;
+      }
+      
+      .match-fill {
+        height: 100%;
+        background-color: var(--secondary);
+        border-radius: 4px;
+      }
+      
+      .match-item {
+        margin-bottom: 15px;
+      }
+      
+      .match-label {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.9em;
+        margin-bottom: 5px;
+      }
+      
+      .match-value {
+        font-weight: bold;
+        color: var(--primary);
+      }
+      
+      .profile-stats {
+        margin-top: 20px;
+      }
+      
+      .profile-stat-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        font-size: 0.95em;
+      }
+      
+      .profile-stat-label {
+        color: #666;
+      }
+      
+      .profile-stat-value {
+        font-weight: bold;
+      }
+      
+      /* Chat styling */
+      .chat-container {
+        display: none;
+        flex-direction: column;
+        height: 100vh;
+        background-color: white;
+      }
+      
+      .chat-header {
+        background-color: var(--primary);
+        color: white;
+        padding: 15px;
+        display: flex;
+        align-items: center;
+      }
+      
+      .back-button {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.5em;
+        cursor: pointer;
+        margin-right: 15px;
+      }
+      
+      .chat-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: var(--light-blue);
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        margin-right: 15px;
+      }
+      
+      .chat-info {
+        flex: 1;
+      }
+      
+      .chat-name {
+        font-weight: bold;
+        font-size: 1.1em;
+      }
+      
+      .chat-status {
+        font-size: 0.8em;
+        opacity: 0.8;
+      }
+      
+      .chat-messages {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+        background-color: var(--bg-light);
+      }
+      
+      .message {
+        margin-bottom: 15px;
+        max-width: 80%;
+      }
+      
+      .message-sent {
+        margin-left: auto;
+        background-color: var(--secondary);
+        color: white;
+        border-radius: 15px 15px 0 15px;
+        padding: 10px 15px;
+      }
+      
+      .message-received {
+        margin-right: auto;
+        background-color: white;
+        border-radius: 15px 15px 15px 0;
+        padding: 10px 15px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+      
+      .message-time {
+        font-size: 0.75em;
+        opacity: 0.8;
+        margin-top: 5px;
+        text-align: right;
+      }
+      
+      .typing-indicator {
+        display: flex;
+        align-items: center;
+        padding: 10px 15px;
+        background-color: white;
+        border-radius: 15px 15px 15px 0;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        width: fit-content;
+        margin-bottom: 15px;
+      }
+      
+      .typing-dot {
+        width: 8px;
+        height: 8px;
+        background-color: #aaa;
+        border-radius: 50%;
+        margin: 0 3px;
+        animation: typing-animation 1s infinite;
+      }
+      
+      .typing-dot:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      
+      .typing-dot:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+      
+      @keyframes typing-animation {
+        0% { transform: translateY(0); }
+        50% { transform: translateY(-5px); }
+        100% { transform: translateY(0); }
+      }
+      
+      .chat-input {
+        border-top: 1px solid #eee;
+        padding: 15px;
+        display: flex;
+      }
+      
+      .chat-input input {
+        flex: 1;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 20px 0 0 20px;
+        outline: none;
+      }
+      
+      .chat-input button {
+        background-color: var(--primary);
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 0 20px 20px 0;
+        cursor: pointer;
+      }
+      
+      /* Footer styling */
+      footer {
+        background: var(--primary);
+        color: var(--text-light);
+        padding: 20px;
+        margin-top: 40px;
+      }
+      
+      footer .footer-container {
+        max-width: 1200px;
+        margin: auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+      
+      footer .footer-section {
+        flex: 1 1 250px;
+        margin: 10px 0;
+      }
+      
+      footer h3 {
+        margin-bottom: 10px;
+      }
+      
+      footer ul {
+        list-style: none;
+      }
+      
+      footer ul li {
+        margin-bottom: 8px;
+      }
+      
+      footer ul li a {
+        color: var(--text-light);
+        text-decoration: none;
+      }
+      
+      /* Responsive styles */
+      @media (max-width: 768px) {
+        header .container {
+          flex-direction: column;
+        }
+        
+        nav ul {
+          flex-direction: column;
+          align-items: center;
+        }
+        
+        .cta-buttons {
+          margin-top: 10px;
+        }
+        
+        .profile-content {
+          grid-template-columns: 1fr;
+        }
+        
+        footer .footer-container {
+          flex-direction: column;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header with Navigation -->
+    <header>
+      <div class="container">
+        <div class="logo">MentorMatch</div>
+        <nav>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#features">Our Values</a></li>
+            <li><a href="index.html#testimonials">Testimonials</a></li>
+            <li><a href="index.html#how-it-works">How It Works</a></li>
+            <li><a href="index.html#immigrants">For Immigrants</a></li>
+            <li><a href="resources.html">Resources</a></li>
+            <li><a href="my-mentors.html" class="active">My Mentors</a></li>
+          </ul>
+        </nav>
+        <div class="cta-buttons">
+          <a href="mentee.html" id="get-mentored-btn">Get Mentored</a>
+          <a href="mentor.html" id="become-mentor-btn">Become a Mentor</a>
+          <a href="#signin">Sign In</a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-container" id="mentors-list-view">
+      <h1 style="margin-bottom: 30px; color: var(--primary);">My Mentors</h1>
+      
+      <!-- Mentor Cards -->
+      <div class="mentor-card">
+        <div class="mentor-header">
+          <div class="mentor-avatar">M</div>
+          <div class="mentor-info">
+            <div class="mentor-name">Maya Chen</div>
+            <div class="mentor-title">Software Engineer at Google</div>
+            <div class="mentor-meta">
+              <div>8+ years experience</div>
+              <div>Last active: Today</div>
+            </div>
+          </div>
+        </div>
+        <div class="mentor-body">
+          <div class="expertise-tags">
+            <div class="expertise-tag">Career Transition</div>
+            <div class="expertise-tag">Technical Interviews</div>
+            <div class="expertise-tag">Coding Skills</div>
+          </div>
+          <div class="mentor-stats">
+            <div class="mentor-stat">
+              <div class="stat-value">92%</div>
+              <div class="stat-label">Match Score</div>
+            </div>
+            <div class="mentor-stat">
+              <div class="stat-value">Weekly</div>
+              <div class="stat-label">Availability</div>
+            </div>
+          </div>
+        </div>
+        <div class="mentor-actions">
+          <button class="btn btn-outline" onclick="openProfile('maya')">View Profile</button>
+          <button class="btn btn-primary" onclick="openChat('maya')">
+            Message
+            <span class="notification-badge">2</span>
+          </button>
+        </div>
+      </div>
+      
+      <div class="mentor-card">
+        <div class="mentor-header">
+          <div class="mentor-avatar">R</div>
+          <div class="mentor-info">
+            <div class="mentor-name">Raj Patel</div>
+            <div class="mentor-title">Data Scientist at Microsoft</div>
+            <div class="mentor-meta">
+              <div>12+ years experience</div>
+              <div>Last active: Yesterday</div>
+            </div>
+          </div>
+        </div>
+        <div class="mentor-body">
+          <div class="expertise-tags">
+            <div class="expertise-tag">Data Science</div>
+            <div class="expertise-tag">Machine Learning</div>
+            <div class="expertise-tag">Career Planning</div>
+          </div>
+          <div class="mentor-stats">
+            <div class="mentor-stat">
+              <div class="stat-value">88%</div>
+              <div class="stat-label">Match Score</div>
+            </div>
+            <div class="mentor-stat">
+              <div class="stat-value">Bi-weekly</div>
+              <div class="stat-label">Availability</div>
+            </div>
+          </div>
+        </div>
+        <div class="mentor-actions">
+          <button class="btn btn-outline" onclick="openProfile('raj')">View Profile</button>
+          <button class="btn btn-primary" onclick="openChat('raj')">Message</button>
+        </div>
+      </div>
+      
+      <div class="mentor-card">
+        <div class="mentor-header">
+          <div class="mentor-avatar">E</div>
+          <div class="mentor-info">
+            <div class="mentor-name">Elena Petrova</div>
+            <div class="mentor-title">Product Manager at Amazon</div>
+            <div class="mentor-meta">
+              <div>6+ years experience</div>
+              <div>Last active: 3 days ago</div>
+            </div>
+          </div>
+        </div>
+        <div class="mentor-body">
+          <div class="expertise-tags">
+            <div class="expertise-tag">Product Strategy</div>
+            <div class="expertise-tag">User Research</div>
+            <div class="expertise-tag">Career Growth</div>
+          </div>
+          <div class="mentor-stats">
+            <div class="mentor-stat">
+              <div class="stat-value">87%</div>
+              <div class="stat-label">Match Score</div>
+            </div>
+            <div class="mentor-stat">
+              <div class="stat-value">Weekly</div>
+              <div class="stat-label">Availability</div>
+            </div>
+          </div>
+        </div>
+        <div class="mentor-actions">
+          <button class="btn btn-outline" onclick="openProfile('elena')">View Profile</button>
+          <button class="btn btn-primary" onclick="openChat('elena')">Message</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Maya's Profile Modal -->
+    <div class="modal-overlay" id="maya-profile-modal">
+      <div class="modal-container">
+        <div class="modal-header">
+          <div class="modal-profile-header">
+            <div class="modal-profile-avatar">M</div>
+            <div class="modal-profile-info">
+              <div class="modal-profile-name">Maya Chen</div>
+              <div class="modal-profile-title">Software Engineer at Google</div>
+            </div>
+          </div>
+          <button class="modal-close" onclick="closeProfile('maya')">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="profile-content">
+            <div>
+              <div class="profile-section">
+                <h3 class="profile-section-title">Background</h3>
+                <p>Originally from Russia, I transitioned from engineering to product management and can guide others on this path in the American business context.</p>
+              </div>
+              
+              <div class="profile-section">
+                <h3 class="profile-section-title">Areas of Expertise</h3>
+                <div class="expertise-tags">
+                  <div class="expertise-tag">Product Strategy</div>
+                  <div class="expertise-tag">User Research</div>
+                  <div class="expertise-tag">Career Growth</div>
+                  <div class="expertise-tag">Roadmapping</div>
+                  <div class="expertise-tag">Team Leadership</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Chat interface for Maya -->
+    <div class="chat-container" id="maya-chat">
+      <div class="chat-header">
+        <button class="back-button" onclick="closeChat('maya')">&larr;</button>
+        <div class="chat-avatar">M</div>
+        <div class="chat-info">
+          <div class="chat-name">Maya Chen</div>
+          <div class="chat-status">Software Engineer at Google</div>
+        </div>
+      </div>
+      
+      <div class="chat-messages" id="maya-messages">
+        <div class="message message-received">
+          <div class="message-text">Hello! I'm Maya, your mentor through MentorMatch. I'm excited to start working with you on your career goals! Tell me a bit about yourself and what you're hoping to achieve through this mentorship.</div>
+          <div class="message-time">Yesterday, 3:45 PM</div>
+        </div>
+      </div>
+      
+      <div class="chat-input">
+        <input type="text" id="maya-input" placeholder="Type your message...">
+        <button onclick="sendMessage('maya')">Send</button>
+      </div>
+    </div>
+    
+    <!-- Chat interface for Raj -->
+    <div class="chat-container" id="raj-chat">
+      <div class="chat-header">
+        <button class="back-button" onclick="closeChat('raj')">&larr;</button>
+        <div class="chat-avatar">R</div>
+        <div class="chat-info">
+          <div class="chat-name">Raj Patel</div>
+          <div class="chat-status">Data Scientist at Microsoft</div>
+        </div>
+      </div>
+      
+      <div class="chat-messages" id="raj-messages">
+        <div class="message message-received">
+          <div class="message-text">Hello! I'm excited to be your mentor in data science and machine learning. How can I help you develop your skills or advance your career in these areas?</div>
+          <div class="message-time">Yesterday, 10:15 AM</div>
+        </div>
+      </div>
+      
+      <div class="chat-input">
+        <input type="text" id="raj-input" placeholder="Type your message...">
+        <button onclick="sendMessage('raj')">Send</button>
+      </div>
+    </div>
+    
+    <!-- Chat interface for Elena -->
+    <div class="chat-container" id="elena-chat">
+      <div class="chat-header">
+        <button class="back-button" onclick="closeChat('elena')">&larr;</button>
+        <div class="chat-avatar">E</div>
+        <div class="chat-info">
+          <div class="chat-name">Elena Petrova</div>
+          <div class="chat-status">Product Manager at Amazon</div>
+        </div>
+      </div>
+      
+      <div class="chat-messages" id="elena-messages">
+        <div class="message message-received">
+          <div class="message-text">Hi there! I'm Elena, and I'm looking forward to mentoring you. I'd love to hear about your background and career aspirations, especially if you're interested in product management.</div>
+          <div class="message-time">Monday, 2:30 PM</div>
+        </div>
+      </div>
+      
+      <div class="chat-input">
+        <input type="text" id="elena-input" placeholder="Type your message...">
+        <button onclick="sendMessage('elena')">Send</button>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-container">
+        <div class="footer-section">
+          <h3>About MentorMatch</h3>
+          <p>
+            MentorMatch is dedicated to connecting mentors and mentees,
+            empowering immigrants to achieve professional excellence through
+            guidance and community support.
+          </p>
+        </div>
+        <div class="footer-section">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#features">Our Values</a></li>
+            <li><a href="index.html#how-it-works">How It Works</a></li>
+            <li><a href="index.html#immigrants">For Immigrants</a></li>
+            <li><a href="resources.html">Resources</a></li>
+            <li><a href="role-select.html">Join Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Get Started</h3>
+          <ul>
+            <li><a href="mentee.html">Become a Mentee</a></li>
+            <li><a href="mentor.html">Become a Mentor</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Contact Us</h3>
+          <ul>
+            <li>Email: info@mentormatch.com</li>
+            <li>Phone: +1 (123) 456-7890</li>
+            <li>Location: Austin, TX, USA</li>
+          </ul>
+        </div>
+      </div>
+      <p style="text-align: center; margin-top: 20px">
+        &copy; 2025 MentorMatch. All Rights Reserved.
+      </p>
+    </footer>
+
+    <!-- JavaScript for interactions -->
+    <script>
+      // Handle profile modals
+      function openProfile(mentor) {
+        document.getElementById(`${mentor}-profile-modal`).style.display = 'flex';
+      }
+      
+      function closeProfile(mentor) {
+        document.getElementById(`${mentor}-profile-modal`).style.display = 'none';
+      }
+      
+      // Handle chat views
+      function openChat(mentor) {
+        document.getElementById('mentors-list-view').style.display = 'none';
+        document.getElementById(`${mentor}-chat`).style.display = 'flex';
+      }
+      
+      function closeChat(mentor) {
+        document.getElementById(`${mentor}-chat`).style.display = 'none';
+        document.getElementById('mentors-list-view').style.display = 'block';
+      }
+      
+      function closeProfileAndOpenChat(mentor) {
+        closeProfile(mentor);
+        openChat(mentor);
+      }
+      
+      // Handle sending messages
+      function sendMessage(mentor) {
+        const inputElement = document.getElementById(`${mentor}-input`);
+        const messagesContainer = document.getElementById(`${mentor}-messages`);
+        const message = inputElement.value.trim();
+        
+        if (message === '') return;
+        
+        // Get current time
+        const now = new Date();
+        const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        
+        // Add user message
+        messagesContainer.innerHTML += `
+          <div class="message message-sent">
+            <div class="message-text">${message}</div>
+            <div class="message-time">${timeString}</div>
+          </div>
+        `;
+        
+        // Clear input
+        inputElement.value = '';
+        
+        // Show typing indicator
+        messagesContainer.innerHTML += `
+          <div class="typing-indicator" id="${mentor}-typing">
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+          </div>
+        `;
+        
+        // Scroll to bottom
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        
+        // Simulate response after delay
+        setTimeout(() => {
+          // Remove typing indicator
+          document.getElementById(`${mentor}-typing`).remove();
+          
+          // Generate response based on mentor
+          let response = '';
+          if (mentor === 'maya') {
+            response = `Thanks for sharing! I'd be happy to help with that. Since I specialize in technical interviews and career transitions, I can offer guidance on how to navigate the tech industry as an immigrant professional. Let's work together to develop a plan that matches your goals.`;
+          } else if (mentor === 'raj') {
+            response = `That's interesting! Data science has many exciting opportunities right now. Based on what you've shared, I think we should focus on building your portfolio with projects that showcase your skills in machine learning and data analysis. Would you like me to suggest some specific project ideas?`;
+          } else if (mentor === 'elena') {
+            response = `I appreciate you sharing your goals! Product management requires both technical knowledge and soft skills. Given your background, we should focus on developing your strategic thinking and stakeholder management abilities. Would you like to start with some practical exercises?`;
+          }
+          
+          // Add response message
+          messagesContainer.innerHTML += `
+            <div class="message message-received">
+              <div class="message-text">${response}</div>
+              <div class="message-time">${timeString}</div>
+            </div>
+          `;
+          
+          // Scroll to bottom again
+          messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }, 1500);
+      }
+      
+      // Allow pressing Enter to send messages
+      document.querySelectorAll('.chat-input input').forEach(input => {
+        input.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+            const mentor = this.id.split('-')[0];
+            sendMessage(mentor);
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
+            
+            <div>
+              <div class="match-info">
+                <h3 class="profile-section-title">Match Details</h3>
+                
+                <div class="match-item">
+                  <div class="match-label">
+                    <span>Field Match</span>
+                    <span class="match-value">85%</span>
+                  </div>
+                  <div class="match-bar">
+                    <div class="match-fill" style="width: 85%"></div>
+                  </div>
+                </div>
+                
+                <div class="match-item">
+                  <div class="match-label">
+                    <span>Skills Match</span>
+                    <span class="match-value">92%</span>
+                  </div>
+                  <div class="match-bar">
+                    <div class="match-fill" style="width: 92%"></div>
+                  </div>
+                </div>
+                
+                <div class="match-item">
+                  <div class="match-label">
+                    <span>Overall Match</span>
+                    <span class="match-value">87%</span>
+                  </div>
+                  <div class="match-bar">
+                    <div class="match-fill" style="width: 87%"></div>
+                  </div>
+                </div>
+                
+                <div class="profile-stats">
+                  <div class="profile-stat-item">
+                    <span class="profile-stat-label">Location</span>
+                    <span class="profile-stat-value">New York, NY</span>
+                  </div>
+                  <div class="profile-stat-item">
+                    <span class="profile-stat-label">Availability</span>
+                    <span class="profile-stat-value">Weekly</span>
+                  </div>
+                  <div class="profile-stat-item">
+                    <span class="profile-stat-label">Experience</span>
+                    <span class="profile-stat-value">6+ years</span>
+                  </div>
+                </div>
+                
+                <button class="btn btn-primary" style="width: 100%; margin-top: 20px;" onclick="closeProfileAndOpenChat('elena')">
+                  Send Message
+                </button>
+              </div>
+            </div>
+            <div>
+              <div class="profile-section">
+                <h3 class="profile-section-title">Background</h3>
+                <p>I immigrated from Taiwan 10 years ago and navigated the tech industry from entry-level to senior roles. I specialize in helping new immigrants adapt to US tech culture.</p>
+              </div>
+              
+              <div class="profile-section">
+                <h3 class="profile-section-title">Areas of Expertise</h3>
+                <div class="expertise-tags">
+                  <div class="expertise-tag">Career Transition</div>
+                  <div class="expertise-tag">Technical Interviews</div>
+                  <div class="expertise-tag">Coding Skills</div>
+                  <div class="expertise-tag">Resume Building</div>
+                  <div class="expertise-tag">Networking</div>
+                </div>
+              </div>
+            </div>
+            
+            <div>
+              <div class="match-info">
+                <h3 class="profile-section-title">Match Details</h3>
+                
+                <div class="match-item">
+                  <div class="match-label">
+                    <span>Field Match</span>
+                    <span class="match-value">98%</span>
+                  </div>
+                  <div class="match-bar">
+                    <div class="match-fill" style="width: 98%"></div>
+                  </div>
+                </div>
+                
+                <div class="match-item">
+                  <div class="match-label">
+                    <span>Skills Match</span>
+                    <span class="match-value">95%</span>
+                  </div>
+                  <div class="match-bar">
+                    <div class="match-fill" style="width: 95%"></div>
+                  </div>
+                </div>
+                
+                <div class="match-item">
+                  <div class="match-label">
+                    <span>Overall Match</span>
+                    <span class="match-value">92%</span>
+                  </div>
+                  <div class="match-bar">
+                    <div class="match-fill" style="width: 92%"></div>
+                  </div>
+                </div>
+                
+                <div class="profile-stats">
+                  <div class="profile-stat-item">
+                    <span class="profile-stat-label">Location</span>
+                    <span class="profile-stat-value">San Francisco, CA</span>
+                  </div>
+                  <div class="profile-stat-item">
+                    <span class="profile-stat-label">Availability</span>
+                    <span class="profile-stat-value">Weekly</span>
+                  </div>
+                  <div class="profile-stat-item">
+                    <span class="profile-stat-label">Experience</span>
+                    <span class="profile-stat-value">8+ years</span>
+                  </div>
+                </div>
+                
+                <button class="btn btn-primary" style="width: 100%; margin-top: 20px;" onclick="closeProfileAndOpenChat('maya')">
+                  Send Message
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Raj's Profile Modal -->
+    <div class="modal-overlay" id="raj-profile-modal">
+      <div class="modal-container">
+        <div class="modal-header">
+          <div class="modal-profile-header">
+            <div class="modal-profile-avatar">R</div>
+            <div class="modal-profile-info">
+              <div class="modal-profile-name">Raj Patel</div>
+              <div class="modal-profile-title">Data Scientist at Microsoft</div>
+            </div>
+          </div>
+          <button class="modal-close" onclick="closeProfile('raj')">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="profile-content">
+            <div>
+              <div class="profile-section">
+                <h3 class="profile-section-title">Background</h3>
+                <p>After moving from India, I built my career in data science and now help others navigate the analytical fields in the US tech ecosystem.</p>
+              </div>
+              
+              <div class="profile-section">
+                <h3 class="profile-section-title">Areas of Expertise</h3>
+                <div class="expertise-tags">
+                  <div class="expertise-tag">Data Science</div>
+                  <div class="expertise-tag">Machine Learning</div>
+                  <div class="expertise-tag">Career Planning</div>
+                  <div class="expertise-tag">Python</div>
+                  <div class="expertise-tag">Statistics</div>
+                </div>
+              </div>
+            </div>
+            
+            <div>
+              <div class="match-info">
+                <h3 class="profile-section-title">Match Details</h3>
+                
+                <div class="match-item">
+                  <div class="match-label">
+                    <span>Field Match</span>
+                    <span class="match-value">96%</span>
+                  </div>
+                  <div class="match-bar">
+                    <div class="match-fill" style="width: 96%"></div>
+                  </div>
+                </div>
+                
+                <div class="match-item">
+                  <div class="match-label">
+                    <span>Skills Match</span>
+                    <span class="match-value">90%</span>
+                  </div>
+                  <div class="match-bar">
+                    <div class="match-fill" style="width: 90%"></div>
+                  </div>
+                </div>
+                
+                <div class="match-item">
+                  <div class="match-label">
+                    <span>Overall Match</span>
+                    <span class="match-value">88%</span>
+                  </div>
+                  <div class="match-bar">
+                    <div class="match-fill" style="width: 88%"></div>
+                  </div>
+                </div>
+                
+                <div class="profile-stats">
+                  <div class="profile-stat-item">
+                    <span class="profile-stat-label">Location</span>
+                    <span class="profile-stat-value">Seattle, WA</span>
+                  </div>
+                  <div class="profile-stat-item">
+                    <span class="profile-stat-label">Availability</span>
+                    <span class="profile-stat-value">Bi-weekly</span>
+                  </div>
+                  <div class="profile-stat-item">
+                    <span class="profile-stat-label">Experience</span>
+                    <span class="profile-stat-value">12+ years</span>
+                  </div>
+                </div>
+                
+                <button class="btn btn-primary" style="width: 100%; margin-top: 20px;" onclick="closeProfileAndOpenChat('raj')">
+                  Send Message
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Elena's Profile Modal -->
+    <div class="modal-overlay" id="elena-profile-modal">
+      <div class="modal-container">
+        <div class="modal-header">
+          <div class="modal-profile-header">
+            <div class="modal-profile-avatar">E</div>
+            <div class="modal-profile-info">
+              <div class="modal-profile-name">Elena Petrova</div>
+              <div class="modal-profile-title">Product Manager at Amazon</div>
+            </div>
+          </div>
+          <button class="modal-close" onclick="closeProfile('elena')">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="profile-content">
