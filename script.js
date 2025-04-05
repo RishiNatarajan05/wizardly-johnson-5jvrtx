@@ -1,11 +1,5 @@
-// Import the Perplexity chat integration
-import {
-  openChat,
-  closeChat,
-  openProfile,
-  closeProfile,
-  closeProfileAndOpenChat,
-} from "./perplexity-integration.js";
+// Import the Perplexity chat generation function
+import { generatePerplexityResponse } from "./perplexity-chat.js";
 
 // Supabase client initialization
 const supabaseUrl = "YOUR_SUPABASE_URL";
@@ -25,6 +19,12 @@ document.addEventListener("DOMContentLoaded", function () {
   if (isMentorPage) initMentorQuiz();
 
   initTagInputs();
+
+  // Initialize chat-related functionality
+  const chatContainers = document.querySelectorAll(".chat-container");
+  if (chatContainers.length > 0) {
+    initChatFunctionality();
+  }
 });
 
 // Mentee Quiz Initialization
@@ -288,3 +288,158 @@ async function submitMentorForm() {
     alert("There was an error submitting your information. Please try again.");
   }
 }
+
+// Chat Functionality Initialization
+function initChatFunctionality() {
+  const sendButtons = document.querySelectorAll(".chat-input button");
+  const inputFields = document.querySelectorAll(".chat-input input");
+
+  sendButtons.forEach((button) => {
+    button.addEventListener("click", function () {
+      const mentorId = this.closest(".chat-container").id.split("-")[0];
+      sendMessage(mentorId);
+    });
+  });
+
+  inputFields.forEach((input) => {
+    input.addEventListener("keypress", function (e) {
+      if (e.key === "Enter") {
+        const mentorId = this.closest(".chat-container").id.split("-")[0];
+        sendMessage(mentorId);
+      }
+    });
+  });
+}
+
+// Send Message Function
+async function sendMessage(partnerId) {
+  const inputElem = document.getElementById(`${partnerId}-input`);
+  const messagesContainer = document.getElementById(`${partnerId}-messages`);
+
+  if (!inputElem || !messagesContainer) {
+    console.error("Required elements not found");
+    return;
+  }
+
+  const message = inputElem.value.trim();
+  if (message === "") return;
+
+  // Get current time for the message
+  const now = new Date();
+  const timeString = now.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  // Add user message to the chat
+  messagesContainer.innerHTML += `
+    <div class="message message-sent">
+      <div class="message-text">${escapeHtml(message)}</div>
+      <div class="message-time">${timeString}</div>
+    </div>
+  `;
+
+  // Clear input field
+  inputElem.value = "";
+
+  // Show typing indicator
+  showTypingIndicator(partnerId);
+
+  // Scroll to bottom
+  scrollToBottom(messagesContainer);
+
+  try {
+    // Determine the role of the current user from session storage
+    const currentUser = getCurrentUser();
+    const role = currentUser ? currentUser.role : "mentee";
+
+    // Generate response using Perplexity API
+    const response = await generatePerplexityResponse(message, partnerId, role);
+
+    // Remove typing indicator
+    hideTypingIndicator(partnerId);
+
+    // Add AI response to chat
+    messagesContainer.innerHTML += `
+      <div class="message message-received">
+        <div class="message-text">${escapeHtml(response)}</div>
+        <div class="message-time">${timeString}</div>
+      </div>
+    `;
+
+    // Scroll to bottom again
+    scrollToBottom(messagesContainer);
+  } catch (error) {
+    console.error("Error generating response:", error);
+
+    // Remove typing indicator
+    hideTypingIndicator(partnerId);
+
+    // Show error message
+    messagesContainer.innerHTML += `
+      <div class="message message-received">
+        <div class="message-text">Sorry, I encountered an error. Please try again later.</div>
+        <div class="message-time">${timeString}</div>
+      </div>
+    `;
+
+    // Scroll to bottom
+    scrollToBottom(messagesContainer);
+  }
+}
+
+// Utility function to escape HTML to prevent XSS
+function escapeHtml(unsafe) {
+  return unsafe
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+// Retrieve current user from session storage
+function getCurrentUser() {
+  const userJson = sessionStorage.getItem("demoUser");
+  return userJson ? JSON.parse(userJson) : null;
+}
+
+// Typing indicator functions
+function showTypingIndicator(partnerId) {
+  const indicator = document.getElementById(`${partnerId}-typing`);
+  if (indicator) {
+    indicator.style.display = "flex";
+  }
+}
+
+function hideTypingIndicator(partnerId) {
+  const indicator = document.getElementById(`${partnerId}-typing`);
+  if (indicator) {
+    indicator.style.display = "none";
+  }
+}
+
+function scrollToBottom(container) {
+  container.scrollTop = container.scrollHeight;
+}
+
+// Utility function to request mentor matches after mentee registration
+async function requestMentorMatches(menteeId) {
+  try {
+    const response = await fetch(`/api/matches/${menteeId}`, {
+      method: "POST",
+    });
+    const matchData = await response.json();
+
+    // Store match data in session storage for later use
+    sessionStorage.setItem("mentorMatches", JSON.stringify(matchData));
+
+    // Redirect to matches page
+    window.location.href = "matches.html";
+  } catch (error) {
+    console.error("Error requesting mentor matches:", error);
+    alert("Unable to find mentor matches. Please try again later.");
+  }
+}
+
+export { sendMessage, getCurrentUser, requestMentorMatches };
